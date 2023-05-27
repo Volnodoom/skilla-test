@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import SFProDisplayMed from 'assets/fonts/sf-pro-display-medium.woff';
 import SFProDisplayReg from 'assets/fonts/sf-pro-display-regular.woff';
 
@@ -139,6 +139,19 @@ button,
 }
 `;
 
+const AppWrapper = styled.div`
+  display: grid;
+  grid-template-areas:
+    "navigation header-line"
+    "navigation content";
+  grid-template-columns: 15rem 1fr;
+
+  @media(min-width: 120rem) {
+    grid-template-columns: 15rem 105rem;
+  }
+`;
+
 export {
   GlobalStyle,
+  AppWrapper,
 };
