@@ -9,7 +9,9 @@ export const Button = styled.button`
 
   font-size: 1rem;
   font-weight: 500;
+  line-height: inherit;
   color: ${({theme}) => theme.color.whitePure};
+  cursor: pointer;
 
   :hover {
     background-color: ${({theme}) => theme.color.accentHover};

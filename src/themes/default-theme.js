@@ -21,6 +21,7 @@ export const defaultTheme = {
     icon: '#ADBFDF',
     iconLight: '#D8E4FB',
     whitePure: '#fff',
+    grey: '#EFEFEF',
 
     // button
     accentHover: '#0024CB',

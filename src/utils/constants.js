@@ -54,3 +54,40 @@ export const NavigationStatic = [
   },
 
 ];
+
+export const ColorHighlight = {
+  Green: 'Green',
+  Yellow: 'Yellow',
+  Red: 'Red',
+};
+
+export const InitialHeadlineData = [
+  {
+    text: 'Новые звонки',
+    textHighligh: [20, 30],
+    color: ColorHighlight.Green,
+  },
+  {
+    text: 'Качество разговоров',
+    textHighligh: 40,
+    color: ColorHighlight.Yellow,
+  },
+  {
+    text: 'Конверсия в заказ',
+    textHighligh: 67,
+    color: ColorHighlight.Red,
+  },
+];
+
+export const TickDirection = {
+  Top: 'Top',
+  Bottom: 'Bottom',
+  Left: 'Left',
+  Right: 'Right',
+};
+
+export const TickType = {
+  Thin: 'Thin',
+  Thick: 'Thick',
+}
+

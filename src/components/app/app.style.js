@@ -36,11 +36,11 @@ body {
 }
 
 :root {
-  font-family: 'SF-Pro-Display', 'Arial', sans-serif;
+  font-family: 'SF-Pro-Display', monospace;
   font-style: normal;
   font-size: 1em;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.4;
 }
 
 body {
@@ -50,6 +50,7 @@ body {
 
   width: 100%;
   height: 100%;
+  width: 1920px;
 
   color: ${({ theme }) => theme.color.text};
   background-color: ${({ theme }) => theme.color.mainBackground};
