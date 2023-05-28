@@ -40,7 +40,7 @@ body {
   font-style: normal;
   font-size: 1em;
   font-weight: 400;
-  line-height: 1.4;
+  line-height: 1.48;
 }
 
 body {
@@ -145,11 +145,7 @@ const AppWrapper = styled.div`
   grid-template-areas:
     "navigation header-line"
     "navigation content";
-  grid-template-columns: 15rem 1fr;
-
-  @media(min-width: 120rem) {
-    grid-template-columns: 15rem 105rem;
-  }
+  grid-template-columns: 15rem 105rem;
 `;
 
 export {

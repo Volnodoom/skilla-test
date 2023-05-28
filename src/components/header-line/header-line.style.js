@@ -7,10 +7,12 @@ const HeadLineWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  width: 105rem;
+  /* width: 105rem; */
   padding: 1.25em 7.5em;
+  display: none;
 
   background-color: ${({theme}) => theme.color.whitePure};
+  box-shadow: 0px 4px 5px #E9EDF3;
 `;
 
 const HeadLineList = styled.ul`
