@@ -2,7 +2,10 @@ import styled from "styled-components";
 import { ButtonTransparent } from "styled-elements/button-transparent/button-transparent";
 
 const DateBalanceWrapper = styled.div`
+  position: relative;
   display: flex;
+  margin-bottom: 1.25em;
+
   align-items: center;
 `;
 
@@ -23,7 +26,6 @@ const BalanceHighlight = styled.b`
   color: ${({theme}) => theme.color.text};
   font-weight: 500;
 `;
-
 
 const BalanceTopUp = styled(ButtonTransparent)`
   position: relative;
@@ -60,47 +62,9 @@ const BalanceTopUp = styled(ButtonTransparent)`
   }
 `;
 
-const DateWrapper = styled.div`
-  display: flex;
-  gap: 1.375em;
-
-  align-items: center;
-`;
-
-const DateChange = styled(ButtonTransparent)`
-  color: ${({theme}) => theme.color.textHeader};
-
-  :hover {
-    color: ${({theme}) => theme.color.accent};
-  }
-`;
-
-const DateCalendar = styled(ButtonTransparent)`
-  display: flex;
-  gap: 0.188em;
-  align-items: center;
-
-  color: ${({theme}) => theme.color.textHeader};
-
-  :hover {
-    color: ${({theme}) => theme.color.accent};
-  }
-`;
-
-const DateValue = styled.span`
-  color: ${({theme}) => theme.color.accent};
-  line-height: 1.14;
-  font-size: 14px;
-`;
-
 export {
   DateBalanceWrapper,
   BalanceWrapper,
   BalanceTopUp,
   BalanceHighlight,
-  DateWrapper,
-  DateChange,
-  DateCalendar,
-  DateValue,
-
 }

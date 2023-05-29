@@ -36,7 +36,7 @@ body {
 }
 
 :root {
-  font-family: 'SF-Pro-Display', monospace;
+  font-family: 'SF-Pro-Display', Arial, sans-serif;
   font-style: normal;
   font-size: 1em;
   font-weight: 400;

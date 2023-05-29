@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import customCursor from "assets/icons/icon-cursor.svg"
 
 export const ButtonTransparent = styled.button`
   padding: 0;
@@ -6,6 +7,6 @@ export const ButtonTransparent = styled.button`
   border: 0 solid transparent;
   background-color: transparent;
   line-height: inherit;
-  cursor: pointer;
+  cursor: url(${customCursor}), pointer;
 `;
 

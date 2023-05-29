@@ -91,3 +91,10 @@ export const TickType = {
   Thick: 'Thick',
 }
 
+export const InitialFilterValue = {
+  Type: 'Все типы',
+  User: 'Все сотрудники',
+  Call: 'Все звонки',
+  Resource: 'Все источники',
+  Fall: 'Все ошибки',
+}
