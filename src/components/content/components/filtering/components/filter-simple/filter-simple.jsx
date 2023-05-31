@@ -1,6 +1,6 @@
 import { useState } from "react";
 import * as S from "./filter-simple.style";
-import CustomSelector from "components/content/custom-selector/custom-selector";
+import CustomSelector from "components/content/components/custom-selector/custom-selector";
 import Tick from "components/tick/tick";
 import { TickDirection } from "utils/constants";
 import { defaultTheme } from "themes/default-theme";

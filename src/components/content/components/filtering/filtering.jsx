@@ -1,7 +1,5 @@
-import CustomSelector from "components/content/custom-selector/custom-selector";
 import FilterSearch from "./components/filter-search/filter-search";
 import * as S from "./filtering.style";
-import { useState } from "react";
 import FilterSimple from "./components/filter-simple/filter-simple";
 import { InitialFilterValue } from "utils/constants";
 

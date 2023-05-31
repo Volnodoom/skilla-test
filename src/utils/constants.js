@@ -1,3 +1,7 @@
+export const TIME_SIXTY = 60;
+export const TWO_DIGITS = 10;
+export const PERCENTAGE = 100;
+
 export const NavigationName = {
   Result: 'Итоги',
   Order: 'Заказы',
@@ -89,7 +93,7 @@ export const TickDirection = {
 export const TickType = {
   Thin: 'Thin',
   Thick: 'Thick',
-}
+};
 
 export const InitialFilterValue = {
   Type: 'Все типы',
@@ -97,4 +101,33 @@ export const InitialFilterValue = {
   Call: 'Все звонки',
   Resource: 'Все источники',
   Fall: 'Все ошибки',
+};
+
+export const SortingTitle = {
+  Type: 'Тип',
+  Time: 'Время',
+  User: 'Сотрудник',
+  Call: 'Звонок',
+  Resource: 'Источник',
+  Duration: 'Длительность',
+};
+
+export const SortingOrder = {
+  Increase: 'ASC',
+  Decrease: 'DESC',
+};
+
+export const InOutCallType = {
+  InCome: 'inComing',
+  OutCome: 'outComing',
 }
+
+export const SortingTitleList = [
+  'Тип',
+  'Время',
+  'Сотрудник',
+  '',
+  'Звонок',
+  'Источник',
+  'Длительность',
+];

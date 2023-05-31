@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { ButtonTransparent } from "styled-elements/button-transparent/button-transparent";
 
-
-
 const FilteringWrapper = styled.div`
   display: flex;
+  margin-bottom: 0.5em;
+
   flex-wrap: wrap;
   align-items: center;
   gap: 1em 3em;
@@ -20,7 +20,7 @@ const FilterReset = styled(ButtonTransparent)`
   ::before,
   ::after {
     position: absolute;
-    inset: 57% 0 auto auto;
+    inset: 55% 0 auto auto;
     width: 0.7em;
     height: 1px;
 

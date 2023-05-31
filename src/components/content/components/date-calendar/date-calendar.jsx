@@ -3,7 +3,7 @@ import * as S from "./date-calendar.style";
 import { TickDirection } from "utils/constants";
 import {ReactComponent as IconCalendar} from "assets/icons/icon-calendar.svg";
 import { useState } from "react";
-import CustomSelector from "components/content/custom-selector/custom-selector";
+import CustomSelector from "components/content/components/custom-selector/custom-selector";
 import CalendarPicker from "./components/calendar-picker/calendar-picker";
 
 const DateCalendar = () => {
