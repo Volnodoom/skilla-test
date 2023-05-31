@@ -1,4 +1,4 @@
-import { TIME_SIXTY, TWO_DIGITS } from "./constants";
+import { PROPER_FORMATE_LOCAL, TIME_SIXTY, TWO_DIGITS, YESTERDAY } from "./constants";
 
 export const calculateAudioTime = (secs) => {
   let minutes, seconds, secondsAfterHour;
@@ -21,4 +21,30 @@ export const calculateAudioTime = (secs) => {
   const returnedMinutes = minutes < TWO_DIGITS ? `0${minutes}` : `${minutes}`;
   const returnedHours = hours < TWO_DIGITS ? `0${hours}` : `${hours}`;
   return `${hasHours ? `${returnedHours}:` : ''}${returnedMinutes}:${returnedSeconds}`;
+}
+
+export const formateDateNoTime = (valueDate) => valueDate
+  .toLocaleDateString('ru-Ru')
+  .replace(/([\d]{2}).*?([\d]{2}).*?(\d{4})/g, '$3-$2-$1');
+
+
+
+export const dateNaming = (value) => {
+  const dateValue = new Date(value);
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const formatter = new Intl.DateTimeFormat('ru-Ru', {
+    year: 'numeric',
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+  })
+
+  if(value === formateDateNoTime(yesterday)) {
+    return YESTERDAY;
+  } else {
+    const formattedString = formatter.format(dateValue);
+    return formattedString.charAt(0).toUpperCase() + formattedString.slice(1);
+  }
 }

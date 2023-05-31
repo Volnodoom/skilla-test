@@ -4,6 +4,7 @@ import { ButtonTransparent } from "styled-elements/button-transparent/button-tra
 const FilteringWrapper = styled.div`
   display: flex;
   margin-bottom: 0.5em;
+  width: 100%;
 
   flex-wrap: wrap;
   align-items: center;

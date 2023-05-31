@@ -3,7 +3,7 @@ import { ButtonTransparent } from "styled-elements/button-transparent/button-tra
 import { gridTableTemplateColumns, tableBottomLineColor } from "styled-elements/css-constants/css-constants";
 
 const ContentHeaderWrapper = styled.thead`
-  /* min-width: 100%; */
+
 `;
 
 const ContentHeaderRow = styled.tr`

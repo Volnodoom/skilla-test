@@ -42,7 +42,7 @@ const ContentLine = ({callInfo}) => {
 
       <S.ContentLineCell>{phoneNumber}</S.ContentLineCell>
 
-      <S.ContentLineCell>{source}</S.ContentLineCell>
+      <S.ContentLineCell hasDiffColor>{source}</S.ContentLineCell>
 
       <S.ContentLineCell>
         {record ? <ContentAudio audioSRC={audioSRC} /> : duration}

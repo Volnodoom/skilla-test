@@ -1,6 +1,9 @@
 export const TIME_SIXTY = 60;
 export const TWO_DIGITS = 10;
 export const PERCENTAGE = 100;
+export const PROPER_FORMATE_LOCAL = 'fr-Fr';
+export const STEP = 25;
+export const YESTERDAY = 'вчера';
 
 export const NavigationName = {
   Result: 'Итоги',

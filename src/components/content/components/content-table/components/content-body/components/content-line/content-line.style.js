@@ -1,7 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import {ReactComponent as IconInCome} from "assets/icons/icon-incoming.svg"
 import {ReactComponent as IconOutcome} from "assets/icons/icon-incoming.svg"
 import { gridTableTemplateColumns, tableBottomLineColor } from "styled-elements/css-constants/css-constants";
+
+const sourceColor = css`
+  color: ${({theme}) => theme.color.textSource};
+`;
 
 const ContentLineRow = styled.tr`
   padding: 1em 2.5em 1em 2.5em;
@@ -18,6 +22,8 @@ const ContentLineRow = styled.tr`
 const ContentLineCell = styled.td`
   font-size: 15px;
   width: min-content;
+
+  ${({hasDiffColor}) => hasDiffColor ? sourceColor : ''};
 `;
 
 const IncomingCall = styled(IconInCome)`
