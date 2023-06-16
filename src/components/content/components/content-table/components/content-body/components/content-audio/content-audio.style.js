@@ -68,10 +68,23 @@ const ContentAudioPlayButton = styled(ButtonTransparent)`
   }
 `;
 
+const ContentAudioPlayTimeLineWrapper = styled.div `
+  position: relative;
+  margin-right: 0.75em;
+
+  :hover::after {
+    position: absolute;
+    top: -1.25rem;
+    top: 50%;
+    left: var(--audio-hover-left);
+    right: var(--audio-hover-right);
+    transform: translate(-50%, -105%);
+    content: attr(data-audiohover);
+  }
+`
 const ContentAudioPlayTimeLine = styled.input`
   width: 10.25rem;
   height: 0.25rem;
-  margin-right: 0.75em;
 
   overflow: hidden;
   border-radius: 3rem;
@@ -89,7 +102,7 @@ const ContentAudioPlayTimeLine = styled.input`
 
   ::-webkit-slider-runnable-track {
     background: linear-gradient(to right,
-      ${({theme}) => theme.color.whitePure} ${({progressPercent}) => `${progressPercent}%`},
+      ${({theme}) => theme.color.accent} ${({progressPercent}) => `${progressPercent}%`},
       ${({theme}) => theme.color.icon} ${({progressPercent}) => `${progressPercent}%`}
     );
     ${cursor}
@@ -103,7 +116,7 @@ const ContentAudioPlayTimeLine = styled.input`
     height: 100%;
 
     ${cursor}
-    background-color: ${({theme}) => theme.color.whitePure};
+    background-color: ${({theme}) => theme.color.accent};
   }
 
   ::-webkit-slider-thumb {
@@ -112,7 +125,7 @@ const ContentAudioPlayTimeLine = styled.input`
     width: 0.2rem;
     height: 0.25rem;
 
-    background-color: ${({theme}) => theme.color.whitePure};
+    background-color: ${({theme}) => theme.color.accent};
     ${cursor}
   }
 
@@ -121,18 +134,18 @@ const ContentAudioPlayTimeLine = styled.input`
     width: 0.2rem;
     height: 0.25rem;
 
-    background-color: ${({theme}) => theme.color.whitePure};
+    background-color: ${({theme}) => theme.color.accent};
     ${cursor}
   }
 
   :active::-webkit-slider-thumb {
     width: 0.3rem;
-    background-color: ${({theme}) => theme.color.accent};
+    background-color: ${({theme}) => theme.color.whitePure};
   }
 
   :active::-moz-range-thumb {
     width: 0.3rem;
-    background-color: ${({theme}) => theme.color.accent};
+    background-color: ${({theme}) => theme.color.whitePure};
   }
 `;
 
@@ -155,6 +168,7 @@ export {
   ContentAudioTiming,
   ContentAudioPlayButton,
   ContentAudioPlayTimeLine,
+  ContentAudioPlayTimeLineWrapper,
   ContentAudioDownload,
   ContentAudioClose,
 }

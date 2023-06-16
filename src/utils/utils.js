@@ -158,7 +158,6 @@ const sortDuration = (dataList, isIncrease) => dataList.slice().sort((valueA, va
 
 });
 
-
 export const sortData = (type, isIncrease, dataList) => {
   switch(type) {
     case SortingTitle.Type:
@@ -172,4 +171,15 @@ export const sortData = (type, isIncrease, dataList) => {
     default:
       return dataList;
   }
+}
+
+export const getCoords = (elem) => {
+  let box = elem.getBoundingClientRect();
+
+  return {
+    top: box.top + window.pageYOffset,
+    right: box.right + window.pageXOffset,
+    bottom: box.bottom + window.pageYOffset,
+    left: box.left + window.pageXOffset
+  };
 }

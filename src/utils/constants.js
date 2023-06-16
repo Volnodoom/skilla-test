@@ -8,6 +8,7 @@ export const BACKEND_URL = 'https://api.skilla.ru/mango';
 export const REQUEST_TIMEOUT = 5000;
 export const AUTH_TOKEN = 'Bearer testtoken';
 export const GLOBAL_METHOD = 'POST';
+export const INPUT = 'INPUT';
 
 export const UrlList = {
   CallList: '/getList',

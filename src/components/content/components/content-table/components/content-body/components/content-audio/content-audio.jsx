@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import * as S from "./content-audio.style";
 import {ReactComponent as IconDownload} from "assets/icons/icon-download.svg"
 import {ReactComponent as IconClose} from "assets/icons/icon-spin-cross.svg"
-import { calculateAudioTime } from "utils/utils";
-import { PERCENTAGE, TIME_SIXTY } from "utils/constants";
+import { calculateAudioTime, getCoords } from "utils/utils";
+import { INPUT, PERCENTAGE, TIME_SIXTY } from "utils/constants";
 import * as selector from "store/useCallsInfoStore.selector";
 import { useCallsInfoStore } from "store/useCallsInfoStore";
 
@@ -11,6 +11,7 @@ const INITIAL_PROGRESS_MAX = 100;
 
 const ContentAudio = ({duration, recordId, partnerId}) => {
   const audio = useRef(null);
+  const timeLineWrapper = useRef(null);
 
   const [styleBarProgress, setStyleBarProgress] = useState(0);
   const [maxProgress, setMaxProgress] = useState(INITIAL_PROGRESS_MAX);
@@ -77,6 +78,41 @@ const ContentAudio = ({duration, recordId, partnerId}) => {
     }
   }
 
+  const handleMouseMove = (evt) => {
+    const target = evt.target;
+    const coords = getCoords(timeLineWrapper.current);
+
+
+    const middleValue = target.offsetWidth/2;
+    const coordLeftDifference = evt.pageX - coords.left;
+    const coordRightDifference = coords.right - evt.pageX;
+
+    const hoverTimer = calculateAudioTime(audioTimeInfo * coordLeftDifference/target.offsetWidth);
+    const isInputElement = target.tagName === INPUT;
+
+    if(isInputElement) {
+      target.parentElement.dataset.audiohover = hoverTimer;
+    } else {
+      target.dataset.audiohover = hoverTimer;
+    }
+
+    if(coordLeftDifference < 20) {
+      timeLineWrapper.current.style.setProperty('--audio-hover-left', `${coordLeftDifference + 20}px`);
+      timeLineWrapper.current.style.setProperty('--audio-hover-right', 'auto');
+      return;
+    }
+
+    if(coordRightDifference < 25 && coordLeftDifference > middleValue) {
+      timeLineWrapper.current.style.setProperty('--audio-hover-right', `${coordRightDifference - 20}px`);
+      timeLineWrapper.current.style.setProperty('--audio-hover-left', 'auto');
+      return;
+    }
+
+    timeLineWrapper.current.style.setProperty('--audio-hover-left', `${coordLeftDifference}px`);
+    timeLineWrapper.current.style.setProperty('--audio-hover-right', 'auto');
+
+  }
+
   if(!audioSRC) {
     return calculateAudioTime(duration)
   }
@@ -107,14 +143,20 @@ const ContentAudio = ({duration, recordId, partnerId}) => {
         aria-label="Кнопка проигрывания/воспроизведения"
       />
 
-      <S.ContentAudioPlayTimeLine
-        onInput={handlePlayTimeInput}
-        onChange={handlePlayTimeChange}
-        progressPercent={styleBarProgress}
-        value={progressInputValue}
-        max={maxProgress}
-        type="range"
-      />
+      <S.ContentAudioPlayTimeLineWrapper
+        data-audiohover={'12:12'}
+        onMouseMove={handleMouseMove}
+        ref={timeLineWrapper}
+      >
+        <S.ContentAudioPlayTimeLine
+          onInput={handlePlayTimeInput}
+          onChange={handlePlayTimeChange}
+          progressPercent={styleBarProgress}
+          value={progressInputValue}
+          max={maxProgress}
+          type="range"
+        />
+      </S.ContentAudioPlayTimeLineWrapper>
 
       <S.ContentAudioDownload
         type="button"
