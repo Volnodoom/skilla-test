@@ -1,4 +1,4 @@
-import { InOutCallType, PROPER_FORMATE_LOCAL, TIME_SIXTY, TWO_DIGITS, YESTERDAY } from "./constants";
+import { InOutCallType, SortingTitle, TIME_SIXTY, TWO_DIGITS, YESTERDAY } from "./constants";
 
 export const calculateAudioTime = (secs) => {
   let minutes, seconds, secondsAfterHour;
@@ -57,5 +57,119 @@ export const calculateInOutToClient = (value) => {
       return InOutCallType.OnGoing;
     default:
       return InOutCallType.All;
+  }
+}
+
+const sortFunctionBase = (sortFunction, isIncrease) => {
+  if(!isIncrease) {
+    return sortFunction();
+  }
+
+  return Number(-sortFunction());
+}
+
+const sortInOutCall = (dataList, isIncrease) => dataList.slice().sort((valueA, valueB) => {
+  const sortFunction = () => {
+    if(
+      valueA.inOut === InOutCallType.InCome &&
+      valueB.inOut === InOutCallType.OnGoing
+      ) {
+        return 1
+    }
+    if(
+      valueA.inOut === InOutCallType.OnGoing &&
+      valueB.inOut === InOutCallType.InCome
+      ) {
+        return -1
+    }
+
+    return 0
+  }
+
+  return sortFunctionBase(
+    sortFunction,
+    isIncrease
+  )
+});
+
+const sortTime = (dataList, isIncrease) => dataList.slice().sort((valueA, valueB) => {
+  const sortFunction = () => {
+    const timeA = Date.parse(valueA.date);
+    const timeB = Date.parse(valueB.date);
+
+    if(timeB - timeA > 0) {
+      return 1
+    }
+    if(timeB - timeA < 0) {
+      return -1
+    }
+
+    return 0;
+  }
+
+  return sortFunctionBase(
+    sortFunction,
+    isIncrease
+  )
+
+});
+
+const sortSource = (dataList, isIncrease) => dataList.slice().sort((valueA, valueB) => {
+  const sortFunction = () => {
+    const sourceA = valueA.source.toLowerCase();
+    const sourceB = valueB.source.toLowerCase();
+
+    if(sourceB > sourceA) {
+      return 1
+    }
+    if(sourceB < sourceA) {
+      return -1
+    }
+
+    return 0;
+  }
+
+  return sortFunctionBase(
+    sortFunction,
+    isIncrease
+  )
+
+});
+
+const sortDuration = (dataList, isIncrease) => dataList.slice().sort((valueA, valueB) => {
+  const sortFunction = () => {
+    const durationA = valueA.duration;
+    const durationB = valueB.duration;
+
+    if(durationB > durationA) {
+      return 1
+    }
+    if(durationB < durationA) {
+      return -1
+    }
+
+    return 0;
+  }
+
+  return sortFunctionBase(
+    sortFunction,
+    isIncrease
+  )
+
+});
+
+
+export const sortData = (type, isIncrease, dataList) => {
+  switch(type) {
+    case SortingTitle.Type:
+      return sortInOutCall(dataList, isIncrease);
+    case SortingTitle.Time:
+      return sortTime(dataList, isIncrease);
+    case SortingTitle.Resource:
+      return sortSource(dataList, isIncrease);
+    case SortingTitle.Duration:
+      return sortDuration(dataList, isIncrease);
+    default:
+      return dataList;
   }
 }

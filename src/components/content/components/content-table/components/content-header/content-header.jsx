@@ -1,27 +1,41 @@
 import { useState } from "react";
-import { SortingOrder, SortingTitleList, TickDirection } from "utils/constants";
+import { SortingTitleList, TickDirection } from "utils/constants";
 import * as S from "./content-header.style";
 import Tick from "components/tick/tick";
 import { defaultTheme } from "themes/default-theme";
 import { useCallsInfoStore } from "store/useCallsInfoStore";
 import * as selector from "store/useCallsInfoStore.selector";
+import { sortData } from "utils/utils";
 
 const ContentHeader = () => {
   const [currentSort, setCurrentSort] = useState('');
   const [sortOrder, setSortOrder] = useState(false);
 
-  const info = useCallsInfoStore(selector.getCalls);
-  const hasRecord = info.some((value) => Boolean(value.record));
+  const callList = useCallsInfoStore(selector.getCalls);
+  const sortStoreCalls = useCallsInfoStore(selector.sortCalls);
+  const setSortingFormat = useCallsInfoStore(selector.setSortingFormat);
+
+  const hasRecord = callList.some((value) => Boolean(value.record));
 
   const handleSortClick = (value) => () => {
     setCurrentSort(value);
 
     if(currentSort !== value) {
       setSortOrder(false);
+      sortStoreCalls(sortData(value, false, callList));
+      setSortingFormat({
+        sortType: value,
+        isIncrease: false,
+      });
       return;
     }
 
     setSortOrder(prev => !prev);
+    sortStoreCalls(sortData(value, !sortOrder, callList));
+    setSortingFormat({
+      sortType: value,
+      isIncrease: !sortOrder,
+    });
   }
 
   return(

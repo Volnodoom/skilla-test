@@ -18,6 +18,10 @@ const ContentHeaderRow = styled.tr`
 
 const ContentHeaderCell = styled.th`
   border: 0;
+
+  :last-child {
+    margin-left: auto;
+  }
 `;
 
 const ContentHeaderSort = styled(ButtonTransparent)`

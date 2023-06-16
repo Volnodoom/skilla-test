@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer"
 import { adapterCallsInfo } from "./adapterCallsInfo";
 import { api } from "services/api";
-import { formateDateNoTime } from "utils/utils";
+import { formateDateNoTime, sortData } from "utils/utils";
 
 const today = new Date();
 const threeDaysBefore = new Date().setDate(new Date().getDate() - THREE_DAYS_BEFORE);
@@ -62,11 +62,21 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
       });
 
       const clientUpdates = data.results.map((serverDatum) => adapterCallsInfo(serverDatum));
+
       set({totalCalls: data['total_rows']});
-      set(state => {state.calls.push(...clientUpdates)});
       set({loadingStatus: LoadingStatus.Succeeded});
       set( state => ({stepsCount: state.stepsCount + 1}));
 
+      if(get().sorting) {
+        const {sortType, isIncrease} = get().sorting;
+        const currentData = get().calls;
+
+        const sortedData = sortData(sortType, isIncrease, [...currentData, ...clientUpdates])
+        set({calls: sortedData});
+        return;
+      }
+
+      set(state => {state.calls.push(...clientUpdates)});
     } catch(err) {
       set({loadingStatus: LoadingStatus.Failed});
       throw err;
@@ -107,7 +117,8 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
     }
   },
 
-  sortAllCallStore: (sortedData) => set({calls: sortedData}),
+  sortAllCall: (sortedData) => set({calls: sortedData}),
+  setSortingFormat: (sortingFormat) => set({sorting: sortingFormat}),
 
   clearStore: () => ({
     calls: [],

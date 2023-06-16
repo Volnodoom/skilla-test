@@ -31,7 +31,7 @@ const ContentLine = ({callInfo, hasRecord}) => {
           inOut === InOutCallType.InCome ? <S.IncomingCall /> : <></>
         }
         {
-          inOut === InOutCallType.OnGoing ? <S.IncomingCall /> : <></>
+          inOut === InOutCallType.OnGoing ? <S.OutComingCall /> : <></>
         }
       </S.ContentLineCell>
 

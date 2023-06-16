@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import {ReactComponent as IconInCome} from "assets/icons/icon-incoming.svg"
-import {ReactComponent as IconOutcome} from "assets/icons/icon-incoming.svg"
+import {ReactComponent as IconOutcome} from "assets/icons/icon-outgoing.svg"
 import { gridTableTemplateColumns, tableBottomLineColor } from "styled-elements/css-constants/css-constants";
 
 const sourceColor = css`

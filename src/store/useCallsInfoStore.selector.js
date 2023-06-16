@@ -12,6 +12,8 @@ export const clearStore = (state) => state.clearStore;
 export const fetchInitiation = (state) => state.fetchInitiation;
 export const changeLoadingStatus = (state) => state.changeLoadingStatus;
 export const fetchMoreCalls = (state) => state.fetchMoreCalls;
+export const sortCalls = (state) => state.sortAllCall;
+export const setSortingFormat = (state) => state.setSortingFormat;
 
 // Record
 export const fetchRecord = (state) => state.fetchRecord;
