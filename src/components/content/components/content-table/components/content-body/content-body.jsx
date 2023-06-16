@@ -13,7 +13,6 @@ const ContentBody = () => {
 
   const info = useCallsInfoStore(selector.getCalls);
   const isLoading = useCallsInfoStore(selector.getIsLoading);
-  const isSucceeded = useCallsInfoStore(selector.getIsSucceeded);
   const currentStatus = useCallsInfoStore(selector.getLoadingStatus);
   const isIdle = currentStatus === LoadingStatus.Idle;
 
@@ -62,7 +61,7 @@ const ContentBody = () => {
               previousValue.current = dateNoTime;
 
               return(
-                <Fragment key={`separator-for-${dateNoTime}`}>
+                <Fragment key={`separator-for-${dateNoTime}-${value.id}`}>
                   <ContentBodyDateSeparation
                     dateString={dateNaming(dateNoTime)}
                     totalCalls={getTotalCallsForDay(dateNoTime)}
