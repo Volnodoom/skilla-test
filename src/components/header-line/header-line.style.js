@@ -7,9 +7,8 @@ const HeadLineWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  /* width: 105rem; */
-  padding: 1.25em 7.5em;
-  display: none;
+  padding: 0.94em 7.5em;
+  height: 4em;
 
   background-color: ${({theme}) => theme.color.whitePure};
   box-shadow: 0px 4px 5px #E9EDF3;

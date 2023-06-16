@@ -1,52 +1,64 @@
 import { InOutCallType } from "utils/constants";
 import * as S from "./content-line.style";
 import ContentAudio from "../content-audio/content-audio";
+import { calculateAudioTime } from "utils/utils";
 
-const ContentLine = ({callInfo}) => {
+const ContentLine = ({callInfo, hasRecord}) => {
   const {
-    inOutCall,
-    time,
-    avatarImg=false,
-    personName=false,
-    personSurname=false,
-    phoneNumber,
-    source,
-    record=false,
+    date,
+    dateNoTime,
     duration,
+    id,
+    inOut,
+    partnerData,
+    partnershipId,
+    personAvatar,
+    personName,
+    personSurname,
+    record,
+    source,
   } = callInfo;
 
-  const familyInitials = 'R.A';
-  const treatedDate = '14:25';
-  const audioSRC = '';
+  const {name: partnerDataName, phone: partnerDataPhone} = partnerData;
+
+  const familyInitials = `${personName.charAt(0).toUpperCase()}.${personSurname.charAt(0).toUpperCase()}`;
+  const treatedDate = date.replace(/.*?(\d{2}):(\d{2}).*/g, '$1:$2');
 
   return(
-    <S.ContentLineRow hasRecord={Boolean(record)}>
+    <S.ContentLineRow hasRecord={hasRecord}>
       <S.ContentLineCell>
         {
-          inOutCall === InOutCallType.InCome ? <S.IncomingCall /> : <></>
+          inOut === InOutCallType.InCome ? <S.IncomingCall /> : <></>
         }
         {
-          inOutCall === InOutCallType.OutCome ? <S.IncomingCall /> : <></>
+          inOut === InOutCallType.OnGoing ? <S.IncomingCall /> : <></>
         }
       </S.ContentLineCell>
 
       <S.ContentLineCell>{treatedDate}</S.ContentLineCell>
 
-      <S.ContentLineCell>
+      <S.ContentLineCellImg>
         {
-          avatarImg ? <S.ContentLineAvatarImg src={avatarImg} alt="." /> : <S.EmptyAvatar data-familyinitials={familyInitials} />
+          personAvatar ? <S.ContentLineAvatarImg src={personAvatar} alt={`${personName} ${personSurname}`} /> : <S.EmptyAvatar data-familyinitials={familyInitials} />
         }
-      </S.ContentLineCell>
+      </S.ContentLineCellImg>
 
       <S.ContentLineCell></S.ContentLineCell>
 
-      <S.ContentLineCell>{phoneNumber}</S.ContentLineCell>
+      <S.ContentLineCellCall>
+        <div>{partnerDataName}</div>
+        <div>{partnerDataPhone}</div>
+      </S.ContentLineCellCall>
 
-      <S.ContentLineCell hasDiffColor>{source}</S.ContentLineCell>
+      <S.ContentLineCellSource hasDiffColor>{source}</S.ContentLineCellSource>
 
-      <S.ContentLineCell>
-        {record ? <ContentAudio audioSRC={audioSRC} /> : duration}
-      </S.ContentLineCell>
+      <S.ContentLineRecord>
+        {
+          record ?
+          <ContentAudio duration={duration} recordId={record} partnerId={partnershipId} /> :
+          calculateAudioTime(duration)
+        }
+      </S.ContentLineRecord>
     </S.ContentLineRow>
   );
 };

@@ -1,66 +1,43 @@
-import { InOutCallType } from "utils/constants";
 import ContentLine from "./components/content-line/content-line";
 import { dateNaming, formateDateNoTime } from "utils/utils";
 import { Fragment, useCallback, useRef } from "react";
 import ContentBodyDateSeparation from "./components/content-body-date-separation/content-body-date-separation";
-
-const mockData = {
-  id: '531487',
-  inOutCall: InOutCallType.InCome,
-  dateTime: '2022-04-19 12:10:08',
-  dateNoTime: '2022-04-19',
-  avatarImg: '',
-  personName: 'Татьяна',
-  personSurname: 'Михалкович',
-  phoneNumber: '79315xxxxxx',
-  source: 'Yandex',
-  record: '',
-  duration: '15.20',
-};
-const mockData2 = {
-  id: '53148asd7',
-  inOutCall: InOutCallType.InCome,
-  dateTime: '2022-04-19 12:10:08',
-  dateNoTime: '2022-04-24',
-  avatarImg: '',
-  personName: 'Татьяна',
-  personSurname: 'Михалкович',
-  phoneNumber: '79315xxxxxx',
-  source: 'Yandex',
-  record: '',
-  duration: '15.20',
-};
-
-const mockIdealData = {
-  id: '531488437',
-  inOutCall: InOutCallType.InCome,
-  dateTime: '2022-04-19 12:10:08',
-  dateNoTime: '2023-06-01',
-  avatarImg: '',
-  personName: 'Татьяна',
-  personSurname: 'Михалкович',
-  phoneNumber: '79315xxxxxx',
-  source: 'Yandex',
-  record: '',
-  duration: '15.20',
-};
+import { useCallsInfoStore } from "store/useCallsInfoStore";
+import * as selector from "store/useCallsInfoStore.selector";
+import ContentLoadingLine from "./components/content-loading-line/content-loading-line";
+import { LoadingStatus } from "utils/constants";
 
 const ContentBody = () => {
   const previousValue = useRef('');
-  const info = [mockData, mockData2];
   const dateList = new Set();
+
+  const info = useCallsInfoStore(selector.getCalls);
+  const isLoading = useCallsInfoStore(selector.getIsLoading);
+  const isSucceeded = useCallsInfoStore(selector.getIsSucceeded);
+  const currentStatus = useCallsInfoStore(selector.getLoadingStatus);
+  const isIdle = currentStatus === LoadingStatus.Idle;
 
   info.forEach((line) => dateList.add(line.dateNoTime));
 
   const getTotalCallsForDay = useCallback((stringDateValue) => info
     .filter((value) => value.dateNoTime === stringDateValue)
-    .length
+    .length, [info]
   )
+
+  const hasRecord = info.some((value) => Boolean(value.record));
 
   const hasContactsToday = dateList
     .has(
       formateDateNoTime(new Date())
     );
+
+    if(isLoading || isIdle) {
+      return(
+        <tbody>
+          <ContentLoadingLine />
+        </tbody>
+      )
+    }
 
 
   return(
@@ -83,18 +60,28 @@ const ContentBody = () => {
               previousValue.current !== dateNoTime
             ) {
               previousValue.current = dateNoTime;
+
               return(
                 <Fragment key={`separator-for-${dateNoTime}`}>
                   <ContentBodyDateSeparation
                     dateString={dateNaming(dateNoTime)}
                     totalCalls={getTotalCallsForDay(dateNoTime)}
                   />
-                  <ContentLine callInfo={value} key={value.id}/>
+                  <ContentLine
+                    callInfo={value}
+                    hasRecord={hasRecord}
+                    key={value.id}
+                  />
                 </Fragment>
               )
             } else {
               previousValue.current = value.dateNoTime;
-              return <ContentLine callInfo={value} key={value.id}/>
+
+              return <ContentLine
+                callInfo={value}
+                hasRecord={hasRecord}
+                key={value.id}
+              />
             }
         })
       }

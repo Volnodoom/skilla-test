@@ -1,4 +1,4 @@
-import { PROPER_FORMATE_LOCAL, TIME_SIXTY, TWO_DIGITS, YESTERDAY } from "./constants";
+import { InOutCallType, PROPER_FORMATE_LOCAL, TIME_SIXTY, TWO_DIGITS, YESTERDAY } from "./constants";
 
 export const calculateAudioTime = (secs) => {
   let minutes, seconds, secondsAfterHour;
@@ -46,5 +46,16 @@ export const dateNaming = (value) => {
   } else {
     const formattedString = formatter.format(dateValue);
     return formattedString.charAt(0).toUpperCase() + formattedString.slice(1);
+  }
+}
+
+export const calculateInOutToClient = (value) => {
+  switch(value) {
+    case 1:
+      return InOutCallType.InCome;
+    case 0:
+      return InOutCallType.OnGoing;
+    default:
+      return InOutCallType.All;
   }
 }

@@ -146,6 +146,7 @@ const AppWrapper = styled.div`
     "navigation header-line"
     "navigation content";
   grid-template-columns: 15rem 105rem;
+  grid-template-rows: 4em 1fr;
 `;
 
 export {

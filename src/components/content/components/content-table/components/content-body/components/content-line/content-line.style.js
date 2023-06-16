@@ -22,8 +22,28 @@ const ContentLineRow = styled.tr`
 const ContentLineCell = styled.td`
   font-size: 15px;
   width: min-content;
+  width: 100%;
+`;
 
+const ContentLineCellCall = styled(ContentLineCell)`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+  width: auto;
+  padding-right: 1em;
+
+
+  > :first-child {
+    color: ${({theme}) => theme.color.textSecondary};
+  }
+`;
+
+const ContentLineCellSource = styled(ContentLineCell)`
   ${({hasDiffColor}) => hasDiffColor ? sourceColor : ''};
+`;
+
+const ContentLineRecord = styled(ContentLineCell)`
+  text-align: right;
 `;
 
 const IncomingCall = styled(IconInCome)`
@@ -32,6 +52,10 @@ const IncomingCall = styled(IconInCome)`
 
 const OutComingCall = styled(IconOutcome)`
 
+`;
+
+const ContentLineCellImg = styled.td`
+  font-size: 15px;
 `;
 
 const ContentLineAvatarImg = styled.img`
@@ -69,5 +93,9 @@ export {
   ContentLineAvatarImg,
   EmptyAvatar,
   ContentLineCell,
+  ContentLineCellSource,
+  ContentLineCellCall,
+  ContentLineCellImg,
+  ContentLineRecord,
 
 }

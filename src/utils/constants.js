@@ -1,9 +1,27 @@
 export const TIME_SIXTY = 60;
 export const TWO_DIGITS = 10;
 export const PERCENTAGE = 100;
-export const PROPER_FORMATE_LOCAL = 'fr-Fr';
 export const STEP = 25;
+export const THREE_DAYS_BEFORE = 3;
 export const YESTERDAY = 'вчера';
+export const BACKEND_URL = 'https://api.skilla.ru/mango';
+export const REQUEST_TIMEOUT = 5000;
+export const AUTH_TOKEN = 'Bearer testtoken';
+export const GLOBAL_METHOD = 'POST';
+
+export const UrlList = {
+  CallList: '/getList',
+  Record: '/getRecord',
+}
+
+export const FetchParams = {
+  DateStart: 'date_start',
+  DateEnd: 'date_end',
+  LimitStart: 'offset',
+  LimitEnd: 'limit',
+  Record: 'record',
+  PartnerId: 'partnership_id',
+}
 
 export const NavigationName = {
   Result: 'Итоги',
@@ -122,7 +140,8 @@ export const SortingOrder = {
 
 export const InOutCallType = {
   InCome: 'inComing',
-  OutCome: 'outComing',
+  OnGoing: 'onGoing',
+  All: 'all',
 }
 
 export const SortingTitleList = [
@@ -134,3 +153,10 @@ export const SortingTitleList = [
   'Источник',
   'Длительность',
 ];
+
+export const LoadingStatus = {
+  Idle: 'idle',
+  Loading: 'loading',
+  Succeeded: 'succeeded',
+  Failed: 'failed',
+};

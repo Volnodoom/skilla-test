@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import * as S from "./content-audio.style";
 import {ReactComponent as IconDownload} from "assets/icons/icon-download.svg"
+import {ReactComponent as IconClose} from "assets/icons/icon-spin-cross.svg"
 import { calculateAudioTime } from "utils/utils";
 import { PERCENTAGE, TIME_SIXTY } from "utils/constants";
+import * as selector from "store/useCallsInfoStore.selector";
+import { useCallsInfoStore } from "store/useCallsInfoStore";
 
 const INITIAL_PROGRESS_MAX = 100;
 
-const ContentAudio = ({audioSRC}) => {
+const ContentAudio = ({duration, recordId, partnerId}) => {
   const audio = useRef(null);
 
   const [styleBarProgress, setStyleBarProgress] = useState(0);
@@ -17,13 +20,23 @@ const ContentAudio = ({audioSRC}) => {
   const [audioTotalDuration, setAudioTotalDuration] = useState('');
   const [playingDuration, setPlayingDuration] = useState('');
 
+  const fetchRecord = useCallsInfoStore(selector.fetchRecord);
+  const audioSRC = useCallsInfoStore(selector.getRecordUrl)(recordId);
+
+  useEffect(() => {
+    if(recordId && partnerId) {
+      fetchRecord(recordId, partnerId);
+    }
+  }, [recordId, partnerId, fetchRecord])
+
+
   const hasHours = Math.floor(audioTotalDuration / (TIME_SIXTY * TIME_SIXTY)) > 0;
 
   useEffect(() => {
-    if(audio.current.currentTime === 0) {
+    if(audioSRC && audio.current.currentTime === 0) {
       setAudioTimeInfo(audioTotalDuration);
     }
-  }, [audioTotalDuration]);
+  }, [audioSRC, audioTotalDuration]);
 
   const handleLoadMeta = () => {
     setAudioTotalDuration(audio.current.duration);
@@ -62,6 +75,10 @@ const ContentAudio = ({audioSRC}) => {
     } else {
       audio.current.pause();
     }
+  }
+
+  if(!audioSRC) {
+    return calculateAudioTime(duration)
   }
 
   return(
@@ -105,6 +122,12 @@ const ContentAudio = ({audioSRC}) => {
       >
         <IconDownload />
       </S.ContentAudioDownload>
+
+      <S.ContentAudioClose
+        type="button"
+      >
+        <IconClose />
+      </S.ContentAudioClose>
     </S.ContentAudioWrapper>
   );
 };

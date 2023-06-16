@@ -3,8 +3,6 @@ import { Button } from "styled-elements/button/button";
 
 const NavigationWrapper = styled.div`
   grid-area: navigation;
-  display: none;
-
   background-color: ${({theme}) => theme.color.secondBackground};
 `;
 

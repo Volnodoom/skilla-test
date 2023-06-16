@@ -3,6 +3,10 @@ import { ButtonTransparent } from "styled-elements/button-transparent/button-tra
 import customCursor from "assets/icons/icon-cursor.svg"
 import { iconColorHoverBehavior } from "styled-elements/css-constants/css-constants";
 
+const cursor = css`
+  cursor: url(${customCursor}) 7 2, pointer;
+`;
+
 const playIcon = css`
   position: absolute;
   inset: 50%;
@@ -34,9 +38,9 @@ const pauseIcon = css`
 
 const ContentAudioWrapper = styled.div`
   display: flex;
-  width: 22em;
-  height: 3em;
-  padding: 0.75em 1.125em;
+  width: 22rem;
+  height: 3rem;
+  padding: 0.75rem 1.125rem;
 
   border-radius: 3em;
   align-items: center;
@@ -79,7 +83,7 @@ const ContentAudioPlayTimeLine = styled.input`
     width: 100%;
     height: 0.25rem;
 
-    cursor: url(${customCursor}), pointer;
+    ${cursor}
     border: 0;
   }
 
@@ -88,7 +92,7 @@ const ContentAudioPlayTimeLine = styled.input`
       ${({theme}) => theme.color.whitePure} ${({progressPercent}) => `${progressPercent}%`},
       ${({theme}) => theme.color.icon} ${({progressPercent}) => `${progressPercent}%`}
     );
-    cursor: url(${customCursor}), pointer;
+    ${cursor}
   }
 
   ::-moz-range-track {
@@ -98,7 +102,7 @@ const ContentAudioPlayTimeLine = styled.input`
   ::-moz-range-progress {
     height: 100%;
 
-    cursor: url(${customCursor}), pointer;
+    ${cursor}
     background-color: ${({theme}) => theme.color.whitePure};
   }
 
@@ -109,7 +113,7 @@ const ContentAudioPlayTimeLine = styled.input`
     height: 0.25rem;
 
     background-color: ${({theme}) => theme.color.whitePure};
-    cursor: url(${customCursor}), pointer;
+    ${cursor}
   }
 
   ::-moz-range-thumb {
@@ -118,7 +122,7 @@ const ContentAudioPlayTimeLine = styled.input`
     height: 0.25rem;
 
     background-color: ${({theme}) => theme.color.whitePure};
-    cursor: url(${customCursor}), pointer;
+    ${cursor}
   }
 
   :active::-webkit-slider-thumb {
@@ -138,6 +142,13 @@ const ContentAudioDownload = styled(ButtonTransparent)`
   ${iconColorHoverBehavior};
 `;
 
+const ContentAudioClose = styled(ButtonTransparent)`
+  width: 1rem;
+  height: 1rem;
+  margin-left: 1.375rem;
+
+  ${iconColorHoverBehavior};
+`;
 
 export {
   ContentAudioWrapper,
@@ -145,6 +156,6 @@ export {
   ContentAudioPlayButton,
   ContentAudioPlayTimeLine,
   ContentAudioDownload,
-
+  ContentAudioClose,
 }
 

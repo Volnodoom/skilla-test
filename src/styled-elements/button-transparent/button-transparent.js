@@ -7,6 +7,6 @@ export const ButtonTransparent = styled.button`
   border: 0 solid transparent;
   background-color: transparent;
   line-height: inherit;
-  cursor: url(${customCursor}), pointer;
+  cursor: url(${customCursor}) 8 0, pointer;
 `;
 

@@ -3,11 +3,15 @@ import { SortingOrder, SortingTitleList, TickDirection } from "utils/constants";
 import * as S from "./content-header.style";
 import Tick from "components/tick/tick";
 import { defaultTheme } from "themes/default-theme";
+import { useCallsInfoStore } from "store/useCallsInfoStore";
+import * as selector from "store/useCallsInfoStore.selector";
 
 const ContentHeader = () => {
   const [currentSort, setCurrentSort] = useState('');
   const [sortOrder, setSortOrder] = useState(false);
 
+  const info = useCallsInfoStore(selector.getCalls);
+  const hasRecord = info.some((value) => Boolean(value.record));
 
   const handleSortClick = (value) => () => {
     setCurrentSort(value);
@@ -22,7 +26,7 @@ const ContentHeader = () => {
 
   return(
     <S.ContentHeaderWrapper>
-      <S.ContentHeaderRow hasRecord={true}>
+      <S.ContentHeaderRow hasRecord={hasRecord}>
         {
           SortingTitleList.map((value, index) => (
             <S.ContentHeaderCell
