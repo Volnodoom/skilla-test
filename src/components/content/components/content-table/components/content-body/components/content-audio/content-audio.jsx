@@ -97,20 +97,19 @@ const ContentAudio = ({duration, recordId, partnerId}) => {
     }
 
     if(coordLeftDifference < 20) {
-      timeLineWrapper.current.style.setProperty('--audio-hover-left', `${coordLeftDifference + 20}px`);
+      timeLineWrapper.current.style.setProperty('--audio-hover-left', `${20}px`);
       timeLineWrapper.current.style.setProperty('--audio-hover-right', 'auto');
       return;
     }
 
-    if(coordRightDifference < 25 && coordLeftDifference > middleValue) {
-      timeLineWrapper.current.style.setProperty('--audio-hover-right', `${coordRightDifference - 20}px`);
+    if(coordRightDifference < 20) {
+      timeLineWrapper.current.style.setProperty('--audio-hover-right', `${-20}px`);
       timeLineWrapper.current.style.setProperty('--audio-hover-left', 'auto');
       return;
     }
 
     timeLineWrapper.current.style.setProperty('--audio-hover-left', `${coordLeftDifference}px`);
     timeLineWrapper.current.style.setProperty('--audio-hover-right', 'auto');
-
   }
 
   if(!audioSRC) {
