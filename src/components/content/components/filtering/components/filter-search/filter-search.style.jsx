@@ -22,7 +22,7 @@ const FilterSearchIcon = styled(SearchIcon)`
 
 `;
 
-const FilterSearchLabel = styled.label`
+const FilterSearchButton = styled(ButtonTransparent)`
   position: absolute;
   width: 1.15em;
   height: 1.15em;
@@ -44,7 +44,7 @@ const FilterSearchInput = styled.input`
   font-size: inherit;
   color: ${({ theme }) => theme.color.text};
 
-  :hover:not(:focus) + ${FilterSearchLabel} {
+  :hover:not(:focus) + ${FilterSearchButton} {
     color: ${({ theme }) => theme.color.accent};
   };
 
@@ -61,9 +61,9 @@ const FilterSearchInput = styled.input`
     color: ${({ theme }) => theme.color.textSecondary};
   }
 
-  :not(:placeholder-shown) {
+  /* :not(:placeholder-shown) {
     border: 1px solid ${({ theme }) => theme.color.thirdBackground};
-  }
+  } */
 `;
 
 const FilterSearchDeleteButton = styled(ButtonTransparent)`
@@ -97,7 +97,7 @@ export {
   FilterSearchIcon,
   FilterSearchInput,
   FilterSearchDelete,
-  FilterSearchLabel,
+  FilterSearchButton,
   FilterSearchDeleteButton,
 
 }

@@ -16,6 +16,7 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
   records: [],
   recordRequestList: [],
   sorting: null,
+  filtering: [],
   timeSpan: {
     dayStart: new Date(threeDaysBefore),
     dayEnd: today,
@@ -49,17 +50,45 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
   },
 
   fetchMoreCalls: async () => {
-    // limit start calculate from the total number of items
+    const currentFilters = get().filtering;
+    const matchedFilter = (requestParam) => currentFilters.find((line) => line.requestParam === requestParam);
+    const activeValue = (requestParam) => matchedFilter(requestParam) ? matchedFilter(requestParam).requestParamValue : '';
+    const hasInOutRequest = matchedFilter(FetchParams.InOut);
+
     try {
-      const {data} = await api({
-        url: UrlList.CallList,
-        params: {
-          [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
-          [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
-          [FetchParams.LimitStart]: (get().stepsCount + 1)*STEP,
-          [FetchParams.LimitEnd]: STEP,
-        }
-      });
+      let dataObject;
+      if(hasInOutRequest) {
+        dataObject = await api({
+          url: UrlList.CallList,
+          params: {
+            [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
+            [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+            [FetchParams.LimitEnd]: STEP,
+            [FetchParams.LimitStart]: (get().stepsCount + 1)*STEP,
+            [FetchParams.InOut]: activeValue(FetchParams.InOut),
+            [FetchParams.Source]: activeValue(FetchParams.Source),
+            [FetchParams.CallType]: activeValue(FetchParams.CallType),
+            [FetchParams.Error]: activeValue(FetchParams.Error),
+            [FetchParams.Search]: activeValue(FetchParams.Search),
+          },
+        })
+      } else {
+        dataObject = await api({
+          url: UrlList.CallList,
+          params: {
+            [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
+            [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+            [FetchParams.LimitEnd]: STEP,
+            [FetchParams.LimitStart]: (get().stepsCount + 1)*STEP,
+            [FetchParams.Source]: activeValue(FetchParams.Source),
+            [FetchParams.CallType]: activeValue(FetchParams.CallType),
+            [FetchParams.Error]: activeValue(FetchParams.Error),
+            [FetchParams.Search]: activeValue(FetchParams.Search),
+          },
+        })
+      }
+
+      const {data} = dataObject;
 
       const clientUpdates = data.results.map((serverDatum) => adapterCallsInfo(serverDatum));
 
@@ -117,8 +146,80 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
     }
   },
 
+  fetchFilter: async (requestParam, requestParamValue) => {
+    const currentFilters = get().filtering;
+    const matchedFilter = (requestParam) => currentFilters.find((line) => line.requestParam === requestParam);
+    const activeValue = (requestParam) => matchedFilter(requestParam) ? matchedFilter(requestParam).requestParamValue : '';
+    const hasInOutRequest = FetchParams.InOut === requestParam || matchedFilter(FetchParams.InOut);
+
+    try {
+      let dataObject;
+      if(hasInOutRequest) {
+        dataObject = await api({
+          url: UrlList.CallList,
+          params: {
+            [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
+            [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+            [FetchParams.LimitEnd]: STEP,
+            [FetchParams.InOut]: requestParam === FetchParams.InOut ? requestParamValue : activeValue(FetchParams.InOut),
+            [FetchParams.Source]: requestParam === FetchParams.Source ? requestParamValue : activeValue(FetchParams.Source),
+            [FetchParams.CallType]: requestParam === FetchParams.CallType ? requestParamValue : activeValue(FetchParams.CallType),
+            [FetchParams.Error]: requestParam === FetchParams.Error ? requestParamValue : activeValue(FetchParams.Error),
+            [FetchParams.Search]: requestParam === FetchParams.Search ? requestParamValue : activeValue(FetchParams.Error),
+          },
+        })
+      } else {
+        dataObject = await api({
+          url: UrlList.CallList,
+          params: {
+            [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
+            [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+            [FetchParams.LimitEnd]: STEP,
+            [FetchParams.Source]: requestParam === FetchParams.Source ? requestParamValue : activeValue(FetchParams.Source),
+            [FetchParams.CallType]: requestParam === FetchParams.CallType ? requestParamValue : activeValue(FetchParams.CallType),
+            [FetchParams.Error]: requestParam === FetchParams.Error ? requestParamValue : activeValue(FetchParams.Error),
+            [FetchParams.Search]: requestParam === FetchParams.Search ? requestParamValue : activeValue(FetchParams.Error),
+          },
+        })
+      }
+
+      const {data} = dataObject;
+      const clientUpdates = data.results.map((serverDatum) => adapterCallsInfo(serverDatum));
+
+      set({calls: [...clientUpdates]});
+      set({totalCalls: data['total_rows']});
+      set({stepsCount: 0});
+
+    } catch(err) {
+      throw err;
+    }
+  },
+
   sortAllCall: (sortedData) => set({calls: sortedData}),
   setSortingFormat: (sortingFormat) => set({sorting: sortingFormat}),
+
+  updateFilter: (updateInfo) => {
+    const currentFiltering = get().filtering;
+    const index = currentFiltering.findIndex((line) => line.type === updateInfo.type);
+
+    if(index >= 0) {
+      if(currentFiltering.length === 1) {
+        set(state => {state.filtering = [updateInfo]});
+        return;
+      } else {
+        set(state => {state.filtering = [
+          ...currentFiltering.slice(0, index),
+          updateInfo,
+          ...currentFiltering.slice(index + 1),
+        ]});
+        return;
+      }
+
+    }
+
+    set(state => {state.filtering.push(updateInfo)});
+  },
+  clearAllFilters: () => set({filtering: []}),
 
   clearStore: () => ({
     calls: [],
@@ -128,14 +229,12 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
     records: [],
     recordRequestList: [],
     sorting: null,
+    filtering: [],
     timeSpan: {
       dayStart: new Date(threeDaysBefore),
       dayEnd: today,
     },
   }),
-
-  resetStepCount: () => set( {stepsCount: 0}),
-  increaseStep: () => set( state => ({stepsCount: state.stepsCount + 1})),
 
   changeLoadingStatus: (statusUpdate) => set({loadingStatus: statusUpdate}),
 })))

@@ -2,42 +2,33 @@ import FilterSearch from "./components/filter-search/filter-search";
 import * as S from "./filtering.style";
 import FilterSimple from "./components/filter-simple/filter-simple";
 import { InitialFilterValue } from "utils/constants";
-
-const mockData = [
-  {
-    text: 'Все клиенты',
-    flag: false,
-  },
-  {
-    text: 'Новые клиенты',
-    flag: false,
-  },
-  {
-    text: 'Все исполнители',
-    flag: false,
-  },
-  {
-    text: 'Через приложение',
-    flag: false,
-  },
-  {
-    text: 'Прочие звонки',
-    flag: false,
-  },
-]
+import { useCallsInfoStore } from "store/useCallsInfoStore";
+import * as selector from "store/useCallsInfoStore.selector";
 
 const Filtering = () => {
   const mockFilterList = Object.values(InitialFilterValue);
 
-  const isAnyFilterActive = true;
+  const getFilters = useCallsInfoStore(selector.getFilters);
+  console.log(getFilters)
+  const clearAllFilters = useCallsInfoStore(selector.clearAllFilters);
+  const fetchInitiation = useCallsInfoStore(selector.fetchInitiation);
+
+  const hasFilters = getFilters.length > 0;
+  const matchedFilter = (filterName) => getFilters.find((line) => line.type === filterName);
+
+  const handleResetFilterClick = () => {
+    clearAllFilters();
+    fetchInitiation();
+  }
 
   return(
     <S.FilteringWrapper>
       <FilterSearch />
       {
-        isAnyFilterActive
+        hasFilters
         ?
           <S.FilterReset
+            onClick={handleResetFilterClick}
             type="button"
           >
             Сбросить фильтры
@@ -50,8 +41,7 @@ const Filtering = () => {
         mockFilterList.map((value, index) => (
           <FilterSimple
             filterName={value}
-            optionList={mockData}
-            isSelected={index%2 === 0}
+            isSelected={Boolean(matchedFilter(value))}
             key={index}
           />
         ))

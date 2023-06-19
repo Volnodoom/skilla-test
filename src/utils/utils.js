@@ -1,4 +1,4 @@
-import { InOutCallType, SortingTitle, TIME_SIXTY, TWO_DIGITS, YESTERDAY } from "./constants";
+import { FIX_DIGITS_NUMBER, InOutCallType, SortingTitle, TIME_SIXTY, TWO_DIGITS, YESTERDAY } from "./constants";
 
 export const calculateAudioTime = (secs) => {
   let minutes, seconds, secondsAfterHour;
@@ -26,8 +26,6 @@ export const calculateAudioTime = (secs) => {
 export const formateDateNoTime = (valueDate) => valueDate
   .toLocaleDateString('ru-Ru')
   .replace(/([\d]{2}).*?([\d]{2}).*?(\d{4})/g, '$3-$2-$1');
-
-
 
 export const dateNaming = (value) => {
   const dateValue = new Date(value);
@@ -182,4 +180,33 @@ export const getCoords = (elem) => {
     bottom: box.bottom + window.pageYOffset,
     left: box.left + window.pageXOffset
   };
+}
+
+export const maskMobile = (string) => {
+  const numberSequence = /^([\d]{1})?(\d{1,3})?(\d{1,3})?(\d{1,2})?(\d{1,2})?/g;
+
+  const leftOnlyNumbers = /\D/g;
+  const elevenDigitsString = string.replace(leftOnlyNumbers, '').slice(0, FIX_DIGITS_NUMBER);
+  const stringLength = elevenDigitsString.length;
+  const match = [...elevenDigitsString.matchAll(numberSequence)][0];
+
+  if(stringLength === 0) {
+    return ``;
+  } else if(stringLength <= 1) {
+    return `+${elevenDigitsString}`;
+  } else if (stringLength <= 4) {
+    return `+${match[1]} (${match[2]}`;
+  } else if (stringLength <= 7) {
+    return `+${match[1]} (${match[2]})-${match[3]}`;
+  } else if (stringLength <= 9) {
+    return `+${match[1]} (${match[2]})-${match[3]}-${match[4]}`;
+  } else if (stringLength <= 11) {
+    return `+${match[1]} (${match[2]})-${match[3]}-${match[4]}-${match[5]}`;
+  }
+}
+
+export const unmaskMobile = (string) => {
+  const numberRegexp = /\D/g;
+  const onlyNumberString = string.replace(numberRegexp, '');
+  return onlyNumberString;
 }

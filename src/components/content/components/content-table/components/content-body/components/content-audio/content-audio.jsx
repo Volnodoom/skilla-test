@@ -82,8 +82,6 @@ const ContentAudio = ({duration, recordId, partnerId}) => {
     const target = evt.target;
     const coords = getCoords(timeLineWrapper.current);
 
-
-    const middleValue = target.offsetWidth/2;
     const coordLeftDifference = evt.pageX - coords.left;
     const coordRightDifference = coords.right - evt.pageX;
 

@@ -8,7 +8,8 @@ const FilteringWrapper = styled.div`
 
   flex-wrap: wrap;
   align-items: center;
-  gap: 1em 3em;
+  justify-content: flex-end;
+  gap: 0em 2em;
 `;
 
 const FilterReset = styled(ButtonTransparent)`

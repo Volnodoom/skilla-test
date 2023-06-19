@@ -53,8 +53,9 @@ const DateCalendar = () => {
       </S.DateChange>
 
       <CustomSelector
+        filterName={"dateTime"}
         optionList={dateList}
-        isActive={isActive}
+        handleActiveState={{isActive, setIsActive}}
         child={<CalendarPicker />}
       />
     </S.DateWrapper>

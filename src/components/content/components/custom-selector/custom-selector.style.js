@@ -14,7 +14,8 @@ const CustomSelectorList = styled.ul`
   position: absolute;
   display: ${({isActive}) => isActive ? 'block' : 'none'};
   width: 12.75em;
-  inset: auto 0 -14.44em auto;
+  inset: auto 0 0 auto;
+  transform: translateY(100%);
   margin: 0;
   padding: 0;
   z-index: ${({theme}) => theme.position.ultimateTop};

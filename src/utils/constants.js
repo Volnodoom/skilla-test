@@ -9,10 +9,13 @@ export const REQUEST_TIMEOUT = 5000;
 export const AUTH_TOKEN = 'Bearer testtoken';
 export const GLOBAL_METHOD = 'POST';
 export const INPUT = 'INPUT';
+export const FIX_DIGITS_NUMBER = 11;
+export const SEARCH = 'Search';
 
 export const UrlList = {
   CallList: '/getList',
   Record: '/getRecord',
+  PersonList: '/getPersonsList',
 }
 
 export const FetchParams = {
@@ -22,6 +25,11 @@ export const FetchParams = {
   LimitEnd: 'limit',
   Record: 'record',
   PartnerId: 'partnership_id',
+  InOut: 'in_out',
+  Source: 'sources[]',
+  CallType: 'from_type[]',
+  Error: 'errors[]',
+  Search: 'search',
 }
 
 export const NavigationName = {
@@ -161,3 +169,109 @@ export const LoadingStatus = {
   Succeeded: 'succeeded',
   Failed: 'failed',
 };
+
+export const InOutCallTypeRu = {
+  // All: {
+  //   display: 'Все Типы',
+  //   fetchParam: 'in_out',
+  //   fetch: 'empty',
+  // },
+  InCome: {
+    display: 'Входящие',
+    fetchParam: 'in_out',
+    fetch: '1',
+  },
+  OnGoing: {
+    display: 'Исходящие',
+    fetchParam: 'in_out',
+    fetch: '0',
+  },
+}
+
+export const SourceList = {
+  Site: {
+    display: 'С сайта',
+    fetchParam: 'sources[]',
+    fetch: 'from_site',
+  },
+  Yandex: {
+    display: 'Яндекс',
+    fetchParam: 'sources[]',
+    fetch: 'yandex',
+  },
+  Google: {
+    display: 'Гугл',
+    fetchParam: 'sources[]',
+    fetch: 'google',
+  },
+  Empty: {
+    display: 'Без источника',
+    fetchParam: 'sources[]',
+    fetch: 'empty',
+  },
+}
+
+export const CallTypeList = {
+  Client: {
+    display: 'Клиенты',
+    fetchParam: 'from_type[]',
+    fetch: 'clients',
+  },
+  NewClient: {
+    display: 'Новые клиенты',
+    fetchParam: 'from_type[]',
+    fetch: 'new_clients',
+  },
+  Workers: {
+    display: 'Рабочие',
+    fetchParam: 'from_type[]',
+    fetch: 'workers',
+  },
+  App: {
+    display: 'Приложение',
+    fetchParam: 'from_type[]',
+    fetch: 'app',
+  },
+}
+
+export const CallErrorTypeList = {
+  NoErrors: {
+    display: 'Без ошибок',
+    fetchParam: 'errors[]',
+    fetch: 'noerrors',
+  },
+  NoScript: {
+    display: 'Скрипт не использован',
+    fetchParam: 'errors[]',
+    fetch: 'noscript',
+  },
+}
+
+export const mockOptionList = {
+  Yandex: {
+    display: 'Все клиенты образ',
+    fetchParam: '',
+    fetch: '',
+  },
+  Yandex1: {
+    display: 'Новые клиенты образ',
+    fetchParam: '',
+    fetch: '',
+  },
+  Yandex2: {
+    display: 'Все исполнители образ',
+    fetchParam: '',
+    fetch: '',
+  },
+  Yandex3: {
+    display: 'Через приложение образ',
+    fetchParam: '',
+    fetch: '',
+  },
+  Yandex4: {
+    display: 'Прочие звонки образ',
+    fetchParam: '',
+    fetch: '',
+  },
+}
+

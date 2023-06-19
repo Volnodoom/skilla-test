@@ -8,7 +8,7 @@ import ContentLoadingLine from "./components/content-loading-line/content-loadin
 import { LoadingStatus } from "utils/constants";
 
 const ContentBody = () => {
-  const previousValue = useRef('');
+  const previousDate = useRef(formateDateNoTime(new Date()));
   const dateList = new Set();
 
   const info = useCallsInfoStore(selector.getCalls);
@@ -25,11 +25,6 @@ const ContentBody = () => {
 
   const hasRecord = info.some((value) => Boolean(value.record));
 
-  const hasContactsToday = dateList
-    .has(
-      formateDateNoTime(new Date())
-    );
-
     if(isLoading || isIdle) {
       return(
         <tbody>
@@ -38,27 +33,16 @@ const ContentBody = () => {
       )
     }
 
-
   return(
     <tbody>
-      {
-        !hasContactsToday  ?
-          <ContentBodyDateSeparation
-            dateString={dateNaming(info[0].dateNoTime)}
-            totalCalls={getTotalCallsForDay(info[0].dateNoTime)}
-            isStart
-          /> :
-        <></>
-      }
-
       {
         info.map((value) => {
           const dateNoTime = value.dateNoTime;
           if(
-              previousValue.current &&
-              previousValue.current !== dateNoTime
+              previousDate.current &&
+              previousDate.current !== dateNoTime
             ) {
-              previousValue.current = dateNoTime;
+              previousDate.current = dateNoTime;
 
               return(
                 <Fragment key={`separator-for-${dateNoTime}-${value.id}`}>
@@ -74,7 +58,7 @@ const ContentBody = () => {
                 </Fragment>
               )
             } else {
-              previousValue.current = value.dateNoTime;
+              previousDate.current = value.dateNoTime;
 
               return <ContentLine
                 callInfo={value}

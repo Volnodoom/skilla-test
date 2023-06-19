@@ -1,7 +1,7 @@
 import { InOutCallType } from "utils/constants";
 import * as S from "./content-line.style";
 import ContentAudio from "../content-audio/content-audio";
-import { calculateAudioTime } from "utils/utils";
+import { calculateAudioTime, maskMobile } from "utils/utils";
 
 const ContentLine = ({callInfo, hasRecord}) => {
   const {
@@ -47,7 +47,7 @@ const ContentLine = ({callInfo, hasRecord}) => {
 
       <S.ContentLineCellCall>
         <div>{partnerDataName}</div>
-        <div>{partnerDataPhone}</div>
+        <div>{maskMobile(partnerDataPhone)}</div>
       </S.ContentLineCellCall>
 
       <S.ContentLineCellSource hasDiffColor>{source}</S.ContentLineCellSource>

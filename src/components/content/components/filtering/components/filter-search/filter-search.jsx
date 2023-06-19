@@ -1,15 +1,44 @@
 import { useState } from "react";
 import * as S from "./filter-search.style";
+import { maskMobile, unmaskMobile } from "utils/utils";
+import { useCallsInfoStore } from "store/useCallsInfoStore";
+import * as selector from "store/useCallsInfoStore.selector";
+import { FetchParams, SEARCH } from "utils/constants";
 
 const FilterSearch = () => {
   const [searchRequest, setSearchRequest] = useState('');
 
+  const updateFilter = useCallsInfoStore(selector.updateFilter);
+  const fetchFilter = useCallsInfoStore(selector.fetchFilter);
+  const getSearchFilter = useCallsInfoStore(selector.getSearchFilter);
+  const getSearchFilterValue = getSearchFilter ? getSearchFilter.value : '';
+
   const handleInputChange = (evt) => {
-    setSearchRequest(evt.target.value);
+    const purePhoneNumbers = unmaskMobile(evt.target.value);
+    if(Number(purePhoneNumbers) === Number(getSearchFilterValue)) {
+      return;
+    }
+    setSearchRequest(maskMobile(evt.target.value));
+    fetchFilter(FetchParams.Search, purePhoneNumbers);
+
+    updateFilter({
+      type: SEARCH,
+      value: purePhoneNumbers,
+      requestParam: FetchParams.Search,
+      requestParamValue: purePhoneNumbers,
+    })
   }
 
   const handleDeleteClick = () => {
     setSearchRequest('');
+    fetchFilter(FetchParams.Search, '');
+
+    updateFilter({
+      type: SEARCH,
+      value: '',
+      requestParam: FetchParams.Search,
+      requestParamValue: '',
+    })
   }
 
   return(
@@ -22,9 +51,9 @@ const FilterSearch = () => {
         id="call-search"
       />
 
-      <S.FilterSearchLabel htmlFor="call-search" aria-label="Поиск по звонкам">
+      <S.FilterSearchButton aria-label="Начать поиск по звонкам">
         <S.FilterSearchIcon aria-hidden="true" focusable="false"/>
-      </S.FilterSearchLabel>
+      </S.FilterSearchButton>
 
       <S.FilterSearchDeleteButton
         onClick={handleDeleteClick}

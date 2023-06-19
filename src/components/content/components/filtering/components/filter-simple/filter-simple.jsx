@@ -2,13 +2,41 @@ import { useState } from "react";
 import * as S from "./filter-simple.style";
 import CustomSelector from "components/content/components/custom-selector/custom-selector";
 import Tick from "components/tick/tick";
-import { TickDirection } from "utils/constants";
+import { CallErrorTypeList, CallTypeList, InOutCallTypeRu, InitialFilterValue, SourceList, TickDirection, mockOptionList } from "utils/constants";
 import { defaultTheme } from "themes/default-theme";
+import { useCallsInfoStore } from "store/useCallsInfoStore";
+import * as selector from "store/useCallsInfoStore.selector";
 
-const FilterSimple = ({filterName, optionList, isSelected=false}) => {
+const FilterSimple = ({filterName, isSelected=false}) => {
   const [isActive, setIsActive] = useState(false);
 
-  const handleButtonClick = () => {
+  const getFilters = useCallsInfoStore(selector.getFilters);
+
+  const hasFilter = getFilters.length > 0;
+  const matchedFilter = getFilters.find((line) => line.type === filterName);
+
+  const matchOptionType = () => {
+   switch(filterName) {
+    case InitialFilterValue.Type:
+      return Object.values(InOutCallTypeRu);
+    case InitialFilterValue.Resource:
+      return Object.values(SourceList);
+    case InitialFilterValue.Call:
+      return Object.values(CallTypeList);
+    case InitialFilterValue.Fall:
+      return Object.values(CallErrorTypeList);
+    default:
+      return Object.values(mockOptionList);
+  }}
+
+  const detectTickColor = (isSelected, isActive) => {
+    if(isSelected || isActive) {
+      return defaultTheme.color.accent ;
+    }
+    return defaultTheme.color.icon;
+  }
+
+  const handleButtonClick = (evt) => {
     setIsActive(prev => !prev);
   }
   return(
@@ -18,14 +46,21 @@ const FilterSimple = ({filterName, optionList, isSelected=false}) => {
       isSelected={isSelected}
       type="button"
     >
-      {filterName}
+      {
+        hasFilter ?
+          matchedFilter ?
+            matchedFilter.value :
+              filterName :
+          filterName
+      }
       <Tick
-        color={isSelected ? defaultTheme.color.accent : defaultTheme.color.icon}
+        color={detectTickColor(isSelected, isActive)}
         tickDirection={isActive ? TickDirection.Top : TickDirection.Bottom}
       />
       <CustomSelector
-        optionList={optionList}
-        isActive={isActive}
+        filterType={filterName}
+        optionList={matchOptionType(filterName)}
+        handleActiveState={{isActive, setIsActive}}
       />
     </S.FilterSimpleButton>
   );
