@@ -10,11 +10,14 @@ import { LoadingStatus } from "utils/constants";
 const Content = () => {
   const initialDataRequest = useCallsInfoStore(selector.fetchInitiation);
   const changeLoadingStatus = useCallsInfoStore(selector.changeLoadingStatus);
+  const clearStore = useCallsInfoStore(selector.clearStore);
 
   useEffect(() => {
     changeLoadingStatus(LoadingStatus.Loading);
     initialDataRequest();
-  }, [changeLoadingStatus, initialDataRequest])
+
+    return () => clearStore();
+  }, [changeLoadingStatus, clearStore, initialDataRequest])
 
   return(
     <S.ContentWrapper>

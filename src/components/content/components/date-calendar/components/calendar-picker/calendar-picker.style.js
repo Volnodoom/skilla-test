@@ -31,7 +31,7 @@ const CalendarInputWrapper = styled.div`
 
 const CalendarPickerInput = styled.input`
   padding: 0;
-  width: 8.29em;
+  width: 8.4em;
   border: 0 solid transparent;
   background-color: transparent;
 

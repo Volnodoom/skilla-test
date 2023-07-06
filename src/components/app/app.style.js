@@ -138,6 +138,15 @@ button,
 
   clip: rect(0 0 0 0);
 }
+
+
+/* flatpickr style */
+.flatpickr-calendar  {
+  left: auto !important;
+  right: 340px !important;
+  top: 100px  !important;
+}
+
 `;
 
 const AppWrapper = styled.div`

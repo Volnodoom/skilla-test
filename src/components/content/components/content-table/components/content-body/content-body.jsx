@@ -24,6 +24,7 @@ const ContentBody = () => {
   )
 
   const hasRecord = info.some((value) => Boolean(value.record));
+  previousDate.current = formateDateNoTime(new Date());
 
     if(isLoading || isIdle) {
       return(
@@ -59,7 +60,6 @@ const ContentBody = () => {
               )
             } else {
               previousDate.current = value.dateNoTime;
-
               return <ContentLine
                 callInfo={value}
                 hasRecord={hasRecord}

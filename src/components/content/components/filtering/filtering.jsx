@@ -9,7 +9,6 @@ const Filtering = () => {
   const mockFilterList = Object.values(InitialFilterValue);
 
   const getFilters = useCallsInfoStore(selector.getFilters);
-  console.log(getFilters)
   const clearAllFilters = useCallsInfoStore(selector.clearAllFilters);
   const fetchInitiation = useCallsInfoStore(selector.fetchInitiation);
 

@@ -21,6 +21,7 @@ export const updateFilter = (state) => state.updateFilter;
 export const clearAllFilters = (state) => state.clearAllFilters;
 export const getFilters = (state) => state.filtering;
 export const getSearchFilter = (state) => state.filtering.find((line) => line.type === SEARCH);
+export const setTimeSpan = (state) => state.setTimeSpan;
 
 // Record
 export const fetchRecord = (state) => state.fetchRecord;

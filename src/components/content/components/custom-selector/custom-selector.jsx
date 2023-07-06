@@ -2,14 +2,17 @@ import { useEffect, useRef } from "react";
 import * as S from "./custom-selector.style";
 import { useCallsInfoStore } from "store/useCallsInfoStore";
 import * as selector from "store/useCallsInfoStore.selector";
+import { DATE_TIME_FILTER, InitialFilterValue } from "utils/constants";
+import { fixedDayTimeSwitcher } from "utils/utils";
 
-const CustomSelector = ({optionList, handleActiveState, child, filterType }) => {
+const CustomSelector = ({optionList, handleActiveState, child, filterType}) => {
   const {isActive, setIsActive} = handleActiveState;
   const selectorBox = useRef(null);
 
   const updateFilter = useCallsInfoStore(selector.updateFilter);
   const fetchFilter = useCallsInfoStore(selector.fetchFilter);
   const getFilters = useCallsInfoStore(selector.getFilters);
+  const setTimeSpan = useCallsInfoStore(selector.setTimeSpan);
 
   const matchedFilter = getFilters.find((line) => line.type === filterType);
   const activeValue = matchedFilter ? matchedFilter.value : null;
@@ -26,6 +29,33 @@ const CustomSelector = ({optionList, handleActiveState, child, filterType }) => 
   }, [setIsActive])
 
   const handleClick = (filterName, requestParam, requestParamValue) => () => {
+    if(filterType === InitialFilterValue.User) {
+      updateFilter({
+        type: filterType,
+        value: filterName,
+        requestParam,
+        requestParamValue,
+      })
+
+      return;
+    }
+
+    if (filterType === DATE_TIME_FILTER) {
+      const startEndTime = fixedDayTimeSwitcher(filterName);
+      setTimeSpan(startEndTime);
+      fetchFilter(requestParam, startEndTime);
+
+      updateFilter({
+        type: filterType,
+        value: filterName,
+        requestParam: filterType,
+        requestParamValue: startEndTime,
+      })
+
+      setIsActive(false);
+      return;
+    }
+
     fetchFilter(requestParam, requestParamValue);
 
     updateFilter({

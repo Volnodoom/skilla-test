@@ -1,12 +1,9 @@
-import { FetchParams, LoadingStatus, STEP, THREE_DAYS_BEFORE, UrlList } from "utils/constants";
+import { DATE_TIME_FILTER, FetchParams, LoadingStatus, STEP, UrlList } from "utils/constants";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer"
 import { adapterCallsInfo } from "./adapterCallsInfo";
 import { api } from "services/api";
-import { formateDateNoTime, sortData } from "utils/utils";
-
-const today = new Date();
-const threeDaysBefore = new Date().setDate(new Date().getDate() - THREE_DAYS_BEFORE);
+import {  sortData, threeDaysBefore,today } from "utils/utils";
 
 export const useCallsInfoStore = create()(immer((set, get) => ({
   calls: [],
@@ -18,7 +15,7 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
   sorting: null,
   filtering: [],
   timeSpan: {
-    dayStart: new Date(threeDaysBefore),
+    dayStart: threeDaysBefore,
     dayEnd: today,
   },
 
@@ -28,8 +25,8 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
       const {data} = await api({
         url: UrlList.CallList,
         params: {
-          [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
-          [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+          [FetchParams.DateStart]: get().timeSpan.dayStart,
+          [FetchParams.DateEnd]: get().timeSpan.dayEnd,
           [FetchParams.LimitStart]: get().stepsCount*STEP,
           [FetchParams.LimitEnd]: STEP,
         }
@@ -61,8 +58,8 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
         dataObject = await api({
           url: UrlList.CallList,
           params: {
-            [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
-            [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+            [FetchParams.DateStart]: get().timeSpan.dayStart,
+            [FetchParams.DateEnd]: get().timeSpan.dayEnd,
             [FetchParams.LimitEnd]: STEP,
             [FetchParams.LimitStart]: (get().stepsCount + 1)*STEP,
             [FetchParams.InOut]: activeValue(FetchParams.InOut),
@@ -76,8 +73,8 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
         dataObject = await api({
           url: UrlList.CallList,
           params: {
-            [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
-            [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+            [FetchParams.DateStart]: get().timeSpan.dayStart,
+            [FetchParams.DateEnd]: get().timeSpan.dayEnd,
             [FetchParams.LimitEnd]: STEP,
             [FetchParams.LimitStart]: (get().stepsCount + 1)*STEP,
             [FetchParams.Source]: activeValue(FetchParams.Source),
@@ -151,6 +148,10 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
     const matchedFilter = (requestParam) => currentFilters.find((line) => line.requestParam === requestParam);
     const activeValue = (requestParam) => matchedFilter(requestParam) ? matchedFilter(requestParam).requestParamValue : '';
     const hasInOutRequest = FetchParams.InOut === requestParam || matchedFilter(FetchParams.InOut);
+    const hasActiveDayTimeRequest = DATE_TIME_FILTER === requestParam;
+
+    const timeStart = get().timeSpan.dayStart;
+    const timeEnd = get().timeSpan.dayEnd;
 
     try {
       let dataObject;
@@ -158,8 +159,8 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
         dataObject = await api({
           url: UrlList.CallList,
           params: {
-            [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
-            [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+            [FetchParams.DateStart]: hasActiveDayTimeRequest ? requestParamValue.dayStart : timeStart,
+            [FetchParams.DateEnd]: hasActiveDayTimeRequest ? requestParamValue.dayEnd : timeEnd,
             [FetchParams.LimitEnd]: STEP,
             [FetchParams.InOut]: requestParam === FetchParams.InOut ? requestParamValue : activeValue(FetchParams.InOut),
             [FetchParams.Source]: requestParam === FetchParams.Source ? requestParamValue : activeValue(FetchParams.Source),
@@ -169,11 +170,12 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
           },
         })
       } else {
+
         dataObject = await api({
           url: UrlList.CallList,
           params: {
-            [FetchParams.DateStart]: formateDateNoTime(get().timeSpan.dayStart),
-            [FetchParams.DateEnd]: formateDateNoTime(get().timeSpan.dayEnd),
+            [FetchParams.DateStart]: hasActiveDayTimeRequest ? requestParamValue.dayStart : timeStart,
+            [FetchParams.DateEnd]: hasActiveDayTimeRequest ? requestParamValue.dayEnd : timeEnd,
             [FetchParams.LimitEnd]: STEP,
             [FetchParams.Source]: requestParam === FetchParams.Source ? requestParamValue : activeValue(FetchParams.Source),
             [FetchParams.CallType]: requestParam === FetchParams.CallType ? requestParamValue : activeValue(FetchParams.CallType),
@@ -195,6 +197,11 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
     }
   },
 
+  setTimeSpan: (spanTime) => set({
+    dayStart: spanTime.dayStart,
+    dayEnd: spanTime.dayEnd,
+  }),
+
   sortAllCall: (sortedData) => set({calls: sortedData}),
   setSortingFormat: (sortingFormat) => set({sorting: sortingFormat}),
 
@@ -214,7 +221,6 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
         ]});
         return;
       }
-
     }
 
     set(state => {state.filtering.push(updateInfo)});
@@ -231,7 +237,7 @@ export const useCallsInfoStore = create()(immer((set, get) => ({
     sorting: null,
     filtering: [],
     timeSpan: {
-      dayStart: new Date(threeDaysBefore),
+      dayStart: threeDaysBefore,
       dayEnd: today,
     },
   }),

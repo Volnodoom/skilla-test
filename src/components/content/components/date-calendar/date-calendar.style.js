@@ -22,7 +22,7 @@ const DateChange = styled(ButtonTransparent)`
 
 const DateCalendar = styled(ButtonTransparent)`
   display: flex;
-  gap: 0.188em;
+  gap: 0.5rem;
   align-items: center;
 
   ${iconColor};

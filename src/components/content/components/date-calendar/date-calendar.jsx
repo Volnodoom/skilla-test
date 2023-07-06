@@ -1,36 +1,18 @@
 import Tick from "components/tick/tick";
 import * as S from "./date-calendar.style";
-import { TickDirection } from "utils/constants";
+import { DATE_TIME_FILTER, TickDirection, dateList } from "utils/constants";
 import {ReactComponent as IconCalendar} from "assets/icons/icon-calendar.svg";
 import { useState } from "react";
 import CustomSelector from "components/content/components/custom-selector/custom-selector";
 import CalendarPicker from "./components/calendar-picker/calendar-picker";
+import { useCallsInfoStore } from "store/useCallsInfoStore";
+import * as selector from "store/useCallsInfoStore.selector";
 
 const DateCalendar = () => {
   const [isActive, setIsActive] = useState(false);
 
-  const dateList = [
-    {
-      text: '3 дня',
-      timeValue: '',
-      flag: true,
-    },
-    {
-      text: 'Неделя',
-      timeValue: '',
-      flag: false,
-    },
-    {
-      text: 'Месяц',
-      timeValue: '',
-      flag: false,
-    },
-    {
-      text: 'Год',
-      timeValue: '',
-      flag: false,
-    },
-  ]
+  const getFilters = useCallsInfoStore(selector.getFilters);
+  const dayTimeFilter = getFilters.find((line) => line.type === DATE_TIME_FILTER);
 
   const handleDateSelectionClick = () => setIsActive(prev => !prev);
 
@@ -45,7 +27,7 @@ const DateCalendar = () => {
       >
         <IconCalendar aria-hidden="true" focusable="false"/>
         <span className="visually-hidden">Звонки за</span>
-        <S.DateValue>3 дня</S.DateValue>
+        <S.DateValue>{dayTimeFilter ? dayTimeFilter.value : dateList[0].display}</S.DateValue>
       </S.DateCalendar>
 
       <S.DateChange type="button" aria-label="Убавить один день">
@@ -53,7 +35,7 @@ const DateCalendar = () => {
       </S.DateChange>
 
       <CustomSelector
-        filterName={"dateTime"}
+        filterType={DATE_TIME_FILTER}
         optionList={dateList}
         handleActiveState={{isActive, setIsActive}}
         child={<CalendarPicker />}

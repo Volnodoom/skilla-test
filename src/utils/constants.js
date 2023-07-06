@@ -3,14 +3,30 @@ export const TWO_DIGITS = 10;
 export const PERCENTAGE = 100;
 export const STEP = 25;
 export const THREE_DAYS_BEFORE = 3;
+export const ONE_WEEK_BEFORE = 7;
+export const ONE_MONTH_BEFORE = 1;
+export const ONE_YEAR_BEFORE = 1;
+export const DATE_DIGITS = 6;
+export const DATE_DIGITS_WITH_DOT = 8;
+export const DAY_MONTH = 4;
+export const REQUEST_TIMEOUT = 5000;
+export const FIX_DIGITS_NUMBER = 11;
+export const FIRST_CHARACTER= 0;
+export const SECOND_CHARACTER = 1;
+export const THIRD_CHARACTER = 2;
+export const FOURTH_CHARACTER = 3;
+export const FIFTH_CHARACTER = 4;
+export const SIXTH_CHARACTER = 5;
+export const SECOND_DATE_STEP = 6;
+export const YEAR_START = '20';
+
 export const YESTERDAY = 'вчера';
 export const BACKEND_URL = 'https://api.skilla.ru/mango';
-export const REQUEST_TIMEOUT = 5000;
 export const AUTH_TOKEN = 'Bearer testtoken';
 export const GLOBAL_METHOD = 'POST';
 export const INPUT = 'INPUT';
-export const FIX_DIGITS_NUMBER = 11;
 export const SEARCH = 'Search';
+export const DATE_TIME_FILTER = 'date-time-filter';
 
 export const UrlList = {
   CallList: '/getList',
@@ -275,3 +291,32 @@ export const mockOptionList = {
   },
 }
 
+export const dateList = [
+  {
+    display: '3 дня',
+    fetchParam: DATE_TIME_FILTER,
+    fetch: '',
+  },
+  {
+    display: 'Неделя',
+    fetchParam: DATE_TIME_FILTER,
+    fetch: '',
+  },
+  {
+    display: 'Месяц',
+    fetchParam: DATE_TIME_FILTER,
+    fetch: '',
+  },
+  {
+    display: 'Год',
+    fetchParam: DATE_TIME_FILTER,
+    fetch: '',
+  },
+]
+
+export const FixedDateTimeList = {
+  ThreeDays: '3 дня',
+  Week: 'Неделя',
+  Month: 'Месяц',
+  Year: 'Год',
+}
