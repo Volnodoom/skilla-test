@@ -3,8 +3,9 @@ export const defaultTheme = {
     // basic
     mainBackground: '#f1f4f9',
     secondBackground: '#091336',
-    audioBackground: '#EAF0FA',
+    thirdBackground: '#EAF0FA',
     accent: '#002CFB',
+    accentLight: '#dee4ff',
 
     // text
     text: '#122945',
@@ -21,9 +22,13 @@ export const defaultTheme = {
     icon: '#ADBFDF',
     iconLight: '#D8E4FB',
     whitePure: '#fff',
+    grey: '#EFEFEF',
 
     // button
     accentHover: '#0024CB',
     accentActive: '#274BC8',
+  },
+  position: {
+    ultimateTop: 1000,
   }
 };

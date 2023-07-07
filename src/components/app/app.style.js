@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import SFProDisplayMed from 'assets/fonts/sf-pro-display-medium.woff';
 import SFProDisplayReg from 'assets/fonts/sf-pro-display-regular.woff';
 
@@ -36,11 +36,11 @@ body {
 }
 
 :root {
-  font-family: 'SF-Pro-Display', 'Arial', sans-serif;
+  font-family: 'SF-Pro-Display', Arial, sans-serif;
   font-style: normal;
   font-size: 1em;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.48;
 }
 
 body {
@@ -50,6 +50,7 @@ body {
 
   width: 100%;
   height: 100%;
+  width: 1920px;
 
   color: ${({ theme }) => theme.color.text};
   background-color: ${({ theme }) => theme.color.mainBackground};
@@ -137,8 +138,27 @@ button,
 
   clip: rect(0 0 0 0);
 }
+
+
+/* flatpickr style */
+.flatpickr-calendar  {
+  left: auto !important;
+  right: 340px !important;
+  top: 100px  !important;
+}
+
+`;
+
+const AppWrapper = styled.div`
+  display: grid;
+  grid-template-areas:
+    "navigation header-line"
+    "navigation content";
+  grid-template-columns: 15rem 105rem;
+  grid-template-rows: 4em 1fr;
 `;
 
 export {
   GlobalStyle,
+  AppWrapper,
 };
