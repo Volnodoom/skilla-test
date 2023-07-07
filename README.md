@@ -7,6 +7,7 @@
   - выбор входящих, исходящих или всех звонков;
   - проигрывание записи (если есть);
   - сортировка на клиенте;
+  - [использовать Skilla API](https://api.skilla.ru/testapi)
   - важный критерий - правильно верстать по макету;
 
 - В проекте использовано: React, styled-components, zustand, axios, flatpickr;
@@ -25,6 +26,7 @@
   - option of incoming and outgoing call types;
   - playing record(if it is available);
   - sorting on client side;
+  - [use Skilla API](https://api.skilla.ru/testapi)
   - important criteria is that layout must follow the figma sketch;
 
 - Has been used: React, styled-components, zustand, axios, flatpickr;
